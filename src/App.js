@@ -23,7 +23,7 @@ export default function App() {
     { type: "operator", value: "AC" },
     { type: "operator", value: "DEL" },
     { type: "none" },
-    { type: "equal", value: "=" }
+    { type: "equal", value: "=" },
   ];
 
   const [number, setNumber] = useState("0");
@@ -37,9 +37,16 @@ export default function App() {
   function onClickControl(item) {
     switch (item.type) {
       case "number": {
-        if (number === "0") {
-          if (item.value !== "000" && item.value !== ".") {
+        if (number === "0" && item.value !== ".") {
+          if (item.value !== "000") {
             setNumber(item.value);
+          }
+          break;
+        }
+
+        if (item.value === ".") {
+          if (number.indexOf(item.value) < 0) {
+            setNumber(number + ".");
           }
           break;
         }
@@ -130,7 +137,7 @@ export default function App() {
                 [styles.operator]: item.type === "operator",
                 [styles.operatorActive]:
                   item.type === "operator" && operator === item.value,
-                [styles.equal]: item.type === "equal"
+                [styles.equal]: item.type === "equal",
               })}
               key={index}
               onClick={() => onClickControl(item)}
