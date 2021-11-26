@@ -33,7 +33,7 @@ export default function App() {
     document.title = "Calculator";
   }, []);
 
-  function onClickControl(item) {
+  function handleControlClick(item) {
     switch (item.type) {
       case "number": {
         if (number === "0" && item.value !== ".") {
@@ -133,11 +133,11 @@ export default function App() {
         <div>
           <Styles.Controls>
             {controls.map((item, index) => (
-              <Styles.ControlItem
-                key={index}
-                onClick={() => onClickControl(item)}
-              >
-                <Styles.StyledButton type={item.type}>
+              <Styles.ControlItem key={index}>
+                <Styles.StyledButton
+                  onClick={() => handleControlClick(item)}
+                  type={item.type}
+                >
                   {item.value}
                 </Styles.StyledButton>
               </Styles.ControlItem>
