@@ -1,6 +1,5 @@
-import styles from "./styles/App.module.scss";
+import * as Styles from "./App.styles";
 import { useState, useEffect, useRef } from "react";
-import clsx from "clsx";
 
 export default function App() {
   const controls = [
@@ -83,6 +82,7 @@ export default function App() {
         if (operator && prevNumberRef.current) {
           const s1 = parseFloat(prevNumberRef.current, 10);
           const s2 = parseFloat(number, 10);
+          prevNumberRef.current = null;
 
           switch (operator) {
             case "+": {
@@ -124,29 +124,27 @@ export default function App() {
   }
 
   return (
-    <div className={styles.box}>
-      <div className={styles.text}>
-        <span>{number}</span>
-      </div>
-      <div>
-        <ul className={styles.controls}>
-          {controls.map((item, index) => (
-            <li
-              className={clsx(styles.control, {
-                [styles.number]: item.type === "number",
-                [styles.operator]: item.type === "operator",
-                [styles.operatorActive]:
-                  item.type === "operator" && operator === item.value,
-                [styles.equal]: item.type === "equal",
-              })}
-              key={index}
-              onClick={() => onClickControl(item)}
-            >
-              <span>{item.value}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <>
+      <Styles.GlobalStyle />
+      <Styles.Box>
+        <Styles.Result>
+          <span>{number}</span>
+        </Styles.Result>
+        <div>
+          <Styles.Controls>
+            {controls.map((item, index) => (
+              <Styles.ControlItem
+                key={index}
+                onClick={() => onClickControl(item)}
+              >
+                <Styles.StyledButton type={item.type}>
+                  {item.value}
+                </Styles.StyledButton>
+              </Styles.ControlItem>
+            ))}
+          </Styles.Controls>
+        </div>
+      </Styles.Box>
+    </>
   );
 }
